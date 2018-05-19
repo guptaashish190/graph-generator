@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import $ from 'jquery'
+import $ from 'jquery';
 class App extends Component {
   state = {
     numberOfDataElements: 0,
@@ -9,7 +9,9 @@ class App extends Component {
     tempValues: {
       x: "test",
       y: ""
-    }
+    },
+    mouseCoordinateY : 0,
+    mouseMoveValue : 0
   }
 
   setMax = () => {
@@ -65,8 +67,18 @@ class App extends Component {
     return yMarkingArray;
   }
 
+  //Mouse handler to get mapped value according to the state.maxHeight
   mouseMovehandler = (e)=>{
-    console.log(e);
+    let heightInPixels = $(".bar-graph").height() - e.clientY + $(".bar-graph").offset().top;   
+    let heightInUnits = this.state.maxHeight*(heightInPixels/$(".bar-graph").height());
+    let finalHeightUnit = Math.floor(heightInUnits*100)/100;
+
+    this.setState({
+      mouseCoordinateY :  - $(".bar-graph").offset().top + e.clientY,
+      mouseMoveValue : finalHeightUnit
+    });
+
+    console.log(heightInPixels);
   }
   render() {
     return (
@@ -74,15 +86,15 @@ class App extends Component {
         <input type="text" placeholder="Add X" value="Test" onChange={(e) => this.onInputChange(e, "x")} /><br />
         <input type="text" placeholder="Add Y" onChange={(e) => this.onInputChange(e, "y")} /><br />
         <button type="button" onClick={() => this.onAddClick()}>Add!</button>
-
-        <div className="bar-graph" onMouseMove={(e)=>this.mouseMovehandler(e)}>
+        <div className="bar-graph" onMouseMove={this.mouseMovehandler.bind(this)}>
           <Legend legX={this.state.legend.x} legY={this.state.legend.y} />
           <div className="y-markings">
             {this.setYmarkings().map((elem, i) =>
               <li key={i} className="y-markings-elem" >{elem}</li>
             )}
           </div>
-          {/* <Reference value={}/> */}
+          <GraphLines />
+          <Reference mouseValue = {this.state.mouseMoveValue} mouseHeight = {this.state.mouseCoordinateY}/>
           <Bargraph maxHeight={this.state.maxHeight} data={this.state.data} />
         </div>
       </div>
@@ -90,7 +102,20 @@ class App extends Component {
   }
 }
 
+//Reference Line Component
+class Reference extends Component {
 
+  render(){
+    return(
+      <div className="reference-container">
+        <div className = "reference-line" style = {{top:this.props.mouseHeight}}></div>
+        <div className = "reference-text" style = {{top: (this.props.mouseHeight - 20) + "px"}}>{this.props.mouseValue}</div>
+      </div>
+    );
+  }
+}
+
+//Bar Graph Component
 class Bargraph extends Component {
 
   mapHeight = (yPos) => {
@@ -115,7 +140,6 @@ class Bar extends Component {
       <div className="bar">
         {this.props.data.y}
         <div style={{ width: 25 + "px", height: this.props.height + "px" }} className="shape">
-
         </div>
         <span>{this.props.data.x}</span>
       </div>
@@ -123,31 +147,40 @@ class Bar extends Component {
   }
 }
 
-class reference extends Component {
-
-  render() {
-    return (
-      <div>
-        <span>{this.props.height}</span>
-      </div>
-    );
-  }
-
-}
-
 //Display Legends
 class Legend extends Component {
-
   render() {
     return (
-
       <div className="legend">
         <div>{this.props.legX}</div>
         <div>{this.props.legY}</div>
       </div>
+    );
+  }
+}
+
+
+class GraphLines extends Component {
+
+  lineGenerator = ()=>{
+    let number = 11;
+    let lines = [];
+    for(let i = 0; i< number ; i++){
+      lines.push(<div key = {i} className= "line"></div>);
+    }
+    return lines;
+  }
+
+  render(){
+    return(
+
+      <div className= "graph-lines">
+        {this.lineGenerator().map((elem,index)=>elem)}
+      </div>
 
     );
   }
+
 }
 
 export default App;
