@@ -27,10 +27,15 @@ body {
 }
 .bar .shape{
     transition: height 0.7s ease-out 0s;
+    transition-property: height, background-color;
     padding:0px 7px;
     background : rgb(128, 99, 255);
     border-radius: 3px;
     box-shadow: 0px 0px 8px black;
+    cursor: pointer;
+}
+.bar .shape:hover{
+    background: rgba(255, 0, 0, 0.564);
 }
 @keyframes stretchAnim {
     0%{
