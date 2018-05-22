@@ -92,21 +92,22 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="input">
-        <input type="text" placeholder="Add X" value="Test" onChange={(e) => this.onInputChange(e, "x")} /><br />
-        <input type="text" placeholder="Add Y" onChange={(e) => this.onInputChange(e, "y")} /><br />
-        <button type="button" onClick={() => this.onAddClick()}>Add!</button>
-
+      <div className="container">
+        <div className="input">
+          <input type="text" placeholder="Add X" value="Test" onChange={(e) => this.onInputChange(e, "x")} /><br />
+          <input type="text" placeholder="Add Y" onChange={(e) => this.onInputChange(e, "y")} /><br />
+          <button type="button" onClick={() => this.onAddClick()}>Add!</button>
+        </div>
         <BarGraph
-          mouseMovehandler = {this.mouseMovehandler}
-          legX = {this.state.legend.x}
-          legY = {this.state.legend.y}
-          setYmarkings = {this.setYmarkings}
-          mouseMoveValue = {this.state.mouseMoveValue}
-          mouseCoordinateY = {this.state.mouseCoordinateY}
-          remove = {this.remove}
-          maxHeight = {this.state.maxHeight}
-          data = {this.state.data}
+          mouseMovehandler={this.mouseMovehandler}
+          legX={this.state.legend.x}
+          legY={this.state.legend.y}
+          setYmarkings={this.setYmarkings}
+          mouseMoveValue={this.state.mouseMoveValue}
+          mouseCoordinateY={this.state.mouseCoordinateY}
+          remove={this.remove}
+          maxHeight={this.state.maxHeight}
+          data={this.state.data}
         />
       </div>
     );
@@ -114,7 +115,6 @@ class App extends Component {
 }
 
 //Bar Graph Container 
-
 class BarGraph extends Component {
 
   render() {
@@ -192,7 +192,7 @@ class Legend extends Component {
   }
 }
 
-
+//Background Graph Referene Lines
 class GraphLines extends Component {
 
   lineGenerator = () => {

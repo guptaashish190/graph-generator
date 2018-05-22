@@ -50,7 +50,7 @@ body {
     height: 500px;
     width: 1200px;
     border-left: 2px solid rgba(151, 161, 252, 0.267);
-    border-bottom: 2px solid rgb(151, 161, 252, 0.267);
+    border-bottom: 2px solid rgba(151, 161, 252, 0.267);
 }
 .legend{
     background: rgb(135, 153, 255);
@@ -98,4 +98,29 @@ body {
     background: rgba(252, 171, 151, 0.2);
     height: 1px;
     width: 1200px;
+}
+.input{
+    display : flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.input input{
+    padding: 15px;
+    background : rgba(167, 174, 255, 0.363);
+    color: rgb(214, 214, 214);
+    border:none;
+}
+.input input:nth-child(1){
+    border-right: 1px solid#a48bfd;
+}
+.input button{
+    padding: 15px;
+    width: 100px;
+    margin-left: 10px;
+    border-radius: 3px;
+    border:none;
+    cursor: pointer;
+}
+.input input::placeholder{
+    color: rgba(255, 255, 255, 0.658);
 }
