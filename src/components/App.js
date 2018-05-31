@@ -3,8 +3,8 @@ import $ from 'jquery';
 class App extends Component {
   state = {
     numberOfDataElements: 0,
-    legend: { y: "Y axis", x: "X axis" },
-    data: [{ x: "yeas", y: 10 }, { x: "yeas", y: 2 }, { x: "yeas", y: 8 }, { x: "yeas", y: 4 }],
+    legend: 0,
+    data: [],
     maxHeight: 0,
     tempValues: {
       x: "test",
@@ -25,6 +25,10 @@ class App extends Component {
     this.setState({
       maxHeight: max
     }, () => {
+      let spacing = this.state.maxHeight / 10;
+      this.setState({
+        legend : spacing
+      });
       this.setYmarkings();
     });
 
@@ -49,7 +53,6 @@ class App extends Component {
     let cData = this.state.data;
 
     cData.push({ x: this.state.tempValues.x, y: Number(this.state.tempValues.y) });
-
     this.setState({
       data: cData,
       numberOfDataElements: 1 + this.state.numberOfDataElements
@@ -73,10 +76,12 @@ class App extends Component {
     let heightInUnits = this.state.maxHeight * (heightInPixels / $(".bar-graph").height());
     let finalHeightUnit = Math.floor(heightInUnits * 100) / 100;
 
-    this.setState({
-      mouseCoordinateY: - $(".bar-graph").offset().top + e.clientY,
-      mouseMoveValue: finalHeightUnit
-    });
+    if(e.clientY - $(".bar-graph").offset().top > 0){
+      this.setState({
+        mouseCoordinateY: - $(".bar-graph").offset().top + e.clientY,
+        mouseMoveValue: finalHeightUnit
+      });
+    }
   }
 
   remove = (e) => {
@@ -100,8 +105,7 @@ class App extends Component {
         </div>
         <BarGraph
           mouseMovehandler={this.mouseMovehandler}
-          legX={this.state.legend.x}
-          legY={this.state.legend.y}
+          leg={this.state.legend}
           setYmarkings={this.setYmarkings}
           mouseMoveValue={this.state.mouseMoveValue}
           mouseCoordinateY={this.state.mouseCoordinateY}
@@ -121,7 +125,7 @@ class BarGraph extends Component {
 
     return (
       <div className="bar-graph" onMouseMove={this.props.mouseMovehandler.bind(this)}>
-        <Legend legX={this.props.legX} legY={this.props.legY} />
+        <Legend leg = {this.props.leg} />
         <div className="y-markings">
           {this.props.setYmarkings().map((elem, i) =>
             <li key={i} className="y-markings-elem" >{elem}</li>
@@ -185,8 +189,7 @@ class Legend extends Component {
   render() {
     return (
       <div className="legend">
-        <div>{this.props.legX}</div>
-        <div>{this.props.legY}</div>
+        <div>Y-axis : {this.props.leg} units</div>
       </div>
     );
   }
