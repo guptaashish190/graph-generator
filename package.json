@@ -14,5 +14,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "sass-watch" : "node-sass --watch scss/style.scss -o public/css/"
+  },
+  "engines" : {
+    "node" : "8.9.4"
   }
 }
