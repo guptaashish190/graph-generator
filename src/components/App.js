@@ -99,8 +99,8 @@ class App extends Component {
     return (
       <div className="container">
         <div className="input">
-          <input type="text" placeholder="Add X" value="Test" onChange={(e) => this.onInputChange(e, "x")} /><br />
-          <input type="text" placeholder="Add Y" onChange={(e) => this.onInputChange(e, "y")} /><br />
+          <input type="text" placeholder="Name" onChange={(e) => this.onInputChange(e, "x")} /><br />
+          <input type="text" placeholder="Value" onChange={(e) => this.onInputChange(e, "y")} /><br />
           <button type="button" onClick={() => this.onAddClick()}>Add!</button>
         </div>
         <BarGraph
